@@ -98,7 +98,47 @@
                     kibacoの成績エクスポートで出力したcsvをcampus squreの成績読み取りファイルフォーマットに変換します。csvを読み取ると自動でkibaco
                     idが学修番号に修正された一覧テーブルが表示されます。作成されたテーブルをcsvファイルに保存する場合はテーブル一番下に表示されている Export to csv ボタンを押してください。
                 </p>
-                <input type="file" id="file"></input>
+                <h5>CSV形式</h5>
+
+                <div class="row">
+                    <div class="col-6">
+                        <p>右のような形式のcsvファイルをご準備ください。データは架空のものです。kibaco
+                            idと最終成績が対になったCSVファイルとなります。kibacoの成績簿エクスポート機能を利用してあと、エクセル等でデータ形式をあわせてください。</p>
+                    </div>
+                    <div class="col-6">
+                        <table class="table table-striped table-sm table-hover">
+                            <tbody>
+                                <tr>
+                                    <td>u17365123</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td>u17353123</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr>
+                                    <td>u18392313</td>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <td>u19591312</td>
+                                    <td>2</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">上記内容理解しましたら、授業コード欄にが授業コードを入力後、下のファイル選択ボタンからkibaco
+                        IDと最終成績が対になったcsvファイルを読み込ませてください</label>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="class_code">
+                        <label for="floatingInput">授業コード（例：L123等）</label>
+                    </div>
+                    <input class="form-control" type="file" id="file">
+                </div>
                 <div id="table-placehold"></div>
                 <hr>
 
@@ -117,12 +157,16 @@
                     }
                     function createTable(data) {
                         let table = document.createElement('table');
+                        table.id = 'csvtable';
                         table.classList = 'table table-striped table-sm table-hover mt-2';
                         let tbody = document.createElement('tbody');
                         table.appendChild(tbody);
                         for (let d of data) {
                             let tr = document.createElement('tr');
                             let pos = 0;
+                            let td_code = document.createElement('td');
+                            td_code.innerText = document.querySelector('#class_code').value;
+                            tr.appendChild(td_code);
                             for (let col of d.split(',')) {
                                 let td = document.createElement('td');
                                 if (pos == 0) {
@@ -141,7 +185,7 @@
                         exportTable();
                     }
                     function exportTable() {
-                        TableExport(document.querySelector("table"), {
+                        TableExport(document.querySelector("#csvtable"), {
                             formats: ["csv"]
                         });
                     }
@@ -176,7 +220,8 @@
         <footer class="small text-muted text-center">
             &copy; 2022 <a href="https://tetsuakibaba.jp" target="_blank"
                 class="link-secondary text-decoration-none">Tetsuaki BABA</a>
-            <a href="" class="link-secondary"><i class="bi-github" role="img" aria-label="GitHub"></i></a>
+            <a href="https://github.com/TetsuakiBaba/KibaConv" class="link-secondary"><i class="bi-github" role="img"
+                    aria-label="GitHub"></i></a>
 
 
         </footer>
