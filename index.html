@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <title>templatable</title>
+</head>
+
+<body>
+    <div class="container-sm">
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <span class="navbar-brand mb-0 h1"> <i class="bi bi-tree"></i>
+                    KibaConv
+                </span>
+                <span class="small text-muted">kibaco ID と学修番号の相互変換ユーティリティ
+                </span>
+            </div>
+        </nav>
+
+        <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active link-dark" id="intro-tab" data-bs-toggle="tab" data-bs-target="#intro"
+                    type="button" role="tab" aria-controls="intro" aria-selected="false">はじめに</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link link-dark" id="algo-tab" data-bs-toggle="tab" data-bs-target="#algo"
+                    type="button" role="tab" aria-controls="algo" aria-selected="true">変換式</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link link-dark" id="ky2y-tab" data-bs-toggle="tab" data-bs-target="#ky2y"
+                    type="button" role="tab" aria-controls="ky2y" aria-selected="true">kibaco ID -> 学修番号</button>
+            </li>
+
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade mt-4" id="algo" role="tabpanel" aria-labelledby="algo-tab">
+                <h5>相互変換について</h5>
+                <ul>
+                    <li>学修番号 → kibaco ID：学修番号の頭1桁を「u」とする</li>
+                    <li>kibaco ID →
+                        学修番号：学修番号の頭「u」を該当する入学年度の下2桁目に入れ替える。学部においては在籍年限は8年であるため、現時点での年度と照らし合わせ、整合性がとれる数字に入れ替えれば良い</li>
+                </ul>
+                <h5>kibaco ID → 学修番号</h5>
+                <p>
+                    例：u8123456789 というkibaco IDがあるとする。2022年度現在において、uの変わりに2を入れるべきか、1を入れるべきかの判断を行う。
+                <ul>
+                    <li>1を入れた場合：18年度入学生となり、22-18 = 6年であり、整合性がとれる（8以内）</li>
+                    <li>2を入れた場合：28年度入学となり未来の入学年度なので当てはまらない（22よりも大きな数字</li>
+                </ul>
+                以上の関数にて実装している。<a href="https://editor.p5js.org/tetsuakibaba/sketches/p0ggNIp6F"
+                    target="_blank">動作確認ページ</a>
+                <pre><code class="javascript">                    
+                    function getStudentNumberFromKibacoID(id) {
+                        // 現在の年度下二桁を求める
+                        let year = new Date().getFullYear() - 2000;
+                      
+                        let y10 = parseInt(year.toString().slice(0, 1));
+                        let y1 = parseInt(year.toString().slice(1, 2));
+                        let ky1 = parseInt(id.slice(1, 2));
+                        let ky10 = 0;
+                        /**
+                        year: 10の段 y10, 1の段 y1
+                        kibaco year: 10の段 ky10, ky1
+                        */
+                      
+                        if (ky1 > y1) {
+                          ky10 = y10 - 1;
+                          if (y10 * 10 + y1 - (ky10 * 10 + ky1) > 8) {
+                            alert("在籍し得ないkibaco idです: " + id);
+                          }
+                        } else {
+                          ky10 = y10;
+                        }
+                        return ky10.toString() + id.slice(1);
+                      }</code>
+                    </pre>
+                </p>
+            </div>
+            <div class="tab-pane fade show active mt-4" id="intro" role="tabpanel" aria-labelledby="intro-tab">
+                <p>
+                    このページは東京都立大学にて運用されている課題管理、成績付機能システムkibacoのデータ書き出しが、成績登録用別システムと互換性が無いことから馬場が勢いに任せて開発したページです。kibacoIDと学修番号自体は大した変換も必要なく、目視で人間がすぐに修正できるものです。しかし200人を超える大人数講座ではて修正が現実的ではないため、本学の誰かにとってもひょっとしたら役たつかもしれない、という思いからこのリポジトリを作成しています。もし役に立ったならgithubのリポジトリにstarをつけてくれると嬉しいです。
+                </p>
+                <p>
+                    なお、成績登録とkibacoIDの関連に関しては、kibaco側から名簿ファイルをダウンロードし、学修番号とkibacoIDを一緒にソートすることで比較的簡単に成績登録用csvファイルを作成することもできます。それ以上に楽をしたい、というのがこのリポジトリの位置づけです。
+                </p>
+            </div>
+
+            <div class="tab-pane fade mt-4" id="ky2y" role="tabpanel" aria-labelledby="ky2y-tab">
+                <p>
+                    kibacoの成績エクスポートで出力したcsvをcampus squreの成績読み取りファイルフォーマットに変換します。csvを読み取ると自動でkibaco
+                    idが学修番号に修正された一覧テーブルが表示されます。作成されたテーブルをcsvファイルに保存する場合はテーブル一番下に表示されている Export to csv ボタンを押してください。
+                </p>
+                <input type="file" id="file"></input>
+                <div id="table-placehold"></div>
+                <hr>
+
+                <script>
+                    let fileInput = document.getElementById('file');
+                    let fileReader = new FileReader();
+                    fileInput.onchange = () => {
+                        let file = fileInput.files[0];
+                        fileReader.readAsText(file);
+                    };
+                    fileReader.onload = () => {
+                        //console.log(fileReader.result);
+                        let data = fileReader.result.split(/\n/);
+                        console.log(data);
+                        createTable(data);
+                    }
+                    function createTable(data) {
+                        let table = document.createElement('table');
+                        table.classList = 'table table-striped table-sm table-hover mt-2';
+                        let tbody = document.createElement('tbody');
+                        table.appendChild(tbody);
+                        for (let d of data) {
+                            let tr = document.createElement('tr');
+                            let pos = 0;
+                            for (let col of d.split(',')) {
+                                let td = document.createElement('td');
+                                if (pos == 0) {
+                                    td.innerText = getStudentNumberFromKibacoID(col);
+                                }
+                                else {
+                                    td.innerText = col;
+                                }
+                                tr.appendChild(td);
+                                pos++;
+                            }
+                            tbody.appendChild(tr);
+                        }
+                        document.querySelector('#table-placehold').appendChild(table)
+                        console.log(document.querySelector('#table-placehold'));
+                        exportTable();
+                    }
+                    function exportTable() {
+                        TableExport(document.querySelector("table"), {
+                            formats: ["csv"]
+                        });
+                    }
+                    function getStudentNumberFromKibacoID(id) {
+                        // 現在の年度下二桁を求める
+                        let year = new Date().getFullYear() - 2000;
+
+                        let y10 = parseInt(year.toString().slice(0, 1));
+                        let y1 = parseInt(year.toString().slice(1, 2));
+                        let ky1 = parseInt(id.slice(1, 2));
+                        let ky10 = 0;
+                        /**
+                        year: 10の段 y10, 1の段 y1
+                        kibaco year: 10の段 ky10, ky1
+                        */
+
+                        if (ky1 > y1) {
+                            ky10 = y10 - 1;
+                            if (y10 * 10 + y1 - (ky10 * 10 + ky1) > 8) {
+                                alert("在籍し得ないkibaco idです: " + id);
+                            }
+                        } else {
+                            ky10 = y10;
+                        }
+                        return ky10.toString() + id.slice(1);
+                    }
+                </script>
+            </div>
+        </div>
+
+        <hr class="mt-2">
+        <footer class="small text-muted text-center">
+            &copy; 2022 <a href="https://tetsuakibaba.jp" target="_blank"
+                class="link-secondary text-decoration-none">Tetsuaki BABA</a>
+            <a href="" class="link-secondary"><i class="bi-github" role="img" aria-label="GitHub"></i></a>
+
+
+        </footer>
+    </div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="index.js"></script>
+    <script src="FileSaver.js"></script>
+    <script src="tableexport.js"></script>
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+</body>
+
+</html>
