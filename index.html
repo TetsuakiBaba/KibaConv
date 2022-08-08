@@ -57,31 +57,29 @@
                 </ul>
                 以上の関数にて実装している。<a href="https://editor.p5js.org/tetsuakibaba/sketches/p0ggNIp6F"
                     target="_blank">動作確認ページ</a>
-                <pre><code class="javascript">                    
-                    function getStudentNumberFromKibacoID(id) {
-                        // 現在の年度下二桁を求める
-                        let year = new Date().getFullYear() - 2000;
-                      
-                        let y10 = parseInt(year.toString().slice(0, 1));
-                        let y1 = parseInt(year.toString().slice(1, 2));
-                        let ky1 = parseInt(id.slice(1, 2));
-                        let ky10 = 0;
-                        /**
-                        year: 10の段 y10, 1の段 y1
-                        kibaco year: 10の段 ky10, ky1
-                        */
-                      
-                        if (ky1 > y1) {
-                          ky10 = y10 - 1;
-                          if (y10 * 10 + y1 - (ky10 * 10 + ky1) > 8) {
-                            alert("在籍し得ないkibaco idです: " + id);
-                          }
-                        } else {
-                          ky10 = y10;
-                        }
-                        return ky10.toString() + id.slice(1);
-                      }</code>
-                    </pre>
+                <pre><code class="javascript"> function getStudentNumberFromKibacoID(id) {
+ // 現在の年度下二桁を求める
+ let year = new Date().getFullYear() - 2000;
+ 
+ let y10 = parseInt(year.toString().slice(0, 1));
+ let y1 = parseInt(year.toString().slice(1, 2));
+ let ky1 = parseInt(id.slice(1, 2));
+ let ky10 = 0;
+ /**
+ year: 10の段 y10, 1の段 y1
+ kibaco year: 10の段 ky10, ky1
+ */
+                     
+ if (ky1 > y1) {
+   ky10 = y10 - 1;
+   if (y10 * 10 + y1 - (ky10 * 10 + ky1) > 8) {
+      alert("在籍し得ないkibaco idです: " + id);
+   }
+ } else {
+   ky10 = y10;
+ }
+ return ky10.toString() + id.slice(1);
+ }</code></pre>
                 </p>
             </div>
             <div class="tab-pane fade show active mt-4" id="intro" role="tabpanel" aria-labelledby="intro-tab">
