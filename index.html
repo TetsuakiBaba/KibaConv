@@ -84,6 +84,10 @@
             </div>
             <div class="tab-pane fade show active mt-4" id="intro" role="tabpanel" aria-labelledby="intro-tab">
                 <p>
+                    <span
+                        class="bg-warning">免責事項：このページの利用に際して生じた如何なる損害・損失に対して当サイト、開発者は責任はおいません。自己責任にてご利用いただきますようお願いいたします。</span>
+                </p>
+                <p>
                     このページは東京都立大学にて運用されている課題管理、成績付機能システムkibacoのデータ書き出しが、成績登録用別システムと互換性が無いことから馬場が勢いに任せて開発したページです。kibacoIDと学修番号自体は大した変換も必要なく、目視で人間がすぐに修正できるものです。しかし200人を超える大人数講座ではて修正が現実的ではないため、本学の誰かにとってもひょっとしたら役たつかもしれない、という思いからこのリポジトリを作成しています。もし役に立ったならgithubのリポジトリにstarをつけてくれると嬉しいです。
                 </p>
                 <p>
@@ -130,7 +134,8 @@
 
                 <div class="mb-3">
                     <label for="formFile" class="form-label">上記内容理解しましたら、授業コード欄にが授業コードを入力後、下のファイル選択ボタンからkibaco
-                        IDと最終成績が対になったcsvファイルを読み込ませてください</label>
+                        IDと最終成績が対になったcsvファイルを読み込ませてください。<span
+                            class="bg-warning">読み込んだcsvファイルがサーバ等の外部に送信されることはありません。必要に応じてgithub上のソースコードを参照してご確認ください。</span></label>
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="class_code">
                         <label for="floatingInput">授業コード（例：L123等）</label>
