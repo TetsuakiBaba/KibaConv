@@ -55,7 +55,7 @@
                     <li>1を入れた場合：18年度入学生となり、22-18 = 6年であり、整合性がとれる（8以内）</li>
                     <li>2を入れた場合：28年度入学となり未来の入学年度なので当てはまらない（22よりも大きな数字</li>
                 </ul>
-                以上の関数にて実装している。<a href="https://editor.p5js.org/tetsuakibaba/sketches/p0ggNIp6F"
+                以下の関数にて実装している。<a href="https://editor.p5js.org/tetsuakibaba/sketches/p0ggNIp6F"
                     target="_blank">動作確認ページ</a>
                 <pre><code class="javascript"> function getStudentNumberFromKibacoID(id) {
  // 現在の年度下二桁を求める
@@ -105,7 +105,7 @@
                 <div class="row">
                     <div class="col-6">
                         <p>右のような形式のcsvファイルをご準備ください。データは架空のものです。kibaco
-                            idと最終成績が対になったCSVファイルとなります。kibacoの成績簿エクスポート機能を利用してあと、エクセル等でデータ形式をあわせてください。</p>
+                            idと最終成績が対になったCSVファイルとなります。kibacoの成績簿エクスポート機能を利用した後、エクセル等でデータ形式をあわせてください。</p>
                     </div>
                     <div class="col-6">
                         <table class="table table-striped table-sm table-hover">
@@ -132,12 +132,13 @@
 
                 </div>
 
+                <hr>
                 <div class="mb-3">
-                    <label for="formFile" class="form-label">上記内容理解しましたら、授業コード欄にが授業コードを入力後、下のファイル選択ボタンからkibaco
-                        IDと最終成績が対になったcsvファイルを読み込ませてください。<span
-                            class="bg-warning">読み込んだcsvファイルがサーバ等の外部に送信されることはありません。必要に応じて<a
-                                href="https://github.com/TetsuakiBaba/KibaConv"
-                                target="_blank">github上のソースコード</a>を参照してご確認ください。</span></label>
+                    <label for="formFile" class="form-label">上記内容理解しましたら、<span
+                            class="bg-danger text-light">まず先に授業コード欄にを入力後</span>、下のファイル選択ボタンからkibaco
+                        IDと最終成績が対になったcsvファイルを読み込ませてください。読み込んだcsvファイルがサーバ等の外部に送信されることはありません。必要に応じて<a
+                            href="https://github.com/TetsuakiBaba/KibaConv"
+                            target="_blank">github上のソースコード</a>を参照してご確認ください。</label>
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="class_code">
                         <label for="floatingInput">授業コード（例：L123等）</label>
